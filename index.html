@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>Belanjaan Rumah Kita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --bg: #F4F7FB;
+      --surface: #FFFFFF;
+      --surface-subtle: #EDF2F9;
+      --surface-hover: #E3EAF4;
+      --text: #19213D;
+      --text-secondary: #5E6987;
+      --text-muted: #8E9BB5;
+      --border: #DDE5F2;
+      --border-focus: #3A6FF8;
+      
+      --primary: #3A6FF8;
+      --primary-hover: #2B5CE6;
+      --primary-light: #EBF1FF;
+      
+      --accent-coral: #FF5A79;
+      --accent-coral-light: #FFEBF0;
+      
+      --mint: #10B981;
+      --mint-light: #ECFDF5;
+      
+      --amber: #F59E0B;
+      --amber-light: #FEF3C7;
+      
+      --radius-sm: 12px;
+      --radius-md: 18px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+      
+      --bubble-shadow-sm: 0 4px 12px rgba(25, 33, 61, 0.05);
+      --bubble-shadow-md: 0 10px 24px rgba(25, 33, 61, 0.08);
+      --bubble-shadow-modal: 0 24px 48px rgba(25, 33, 61, 0.16);
+      
+      --touch-min: 44px;
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0F1424;
+      --surface: #192038;
+      --surface-subtle: #222B48;
+      --surface-hover: #2C375C;
+      --text: #F8FAFC;
+      --text-secondary: #A6B4D0;
+      --text-muted: #6B7C9E;
+      --border: #2C375C;
+      --border-focus: #5B88FF;
+      
+      --primary: #5B88FF;
+      --primary-hover: #759BFF;
+      --primary-light: #182854;
+      
+      --accent-coral: #FF6B88;
+      --accent-coral-light: #3D1926;
+      
+      --mint: #34D399;
+      --mint-light: #133328;
+      
+      --amber: #FBBF24;
+      --amber-light: #3B2E14;
+      
+      --bubble-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+      --bubble-shadow-md: 0 10px 24px rgba(0, 0, 0, 0.35);
+      --bubble-shadow-modal: 0 24px 48px rgba(0, 0, 0, 0.5);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* --- Header --- */
+    header {
+      padding: 24px 0 18px;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .bubble-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(58, 111, 248, 0.35);
+      flex-shrink: 0;
+    }
+    .bubble-badge svg {
+      width: 22px;
+      height: 22px;
+    }
+    header h1 {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+    #themeToggle {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      color: var(--text-secondary);
+      min-height: var(--touch-min);
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--bubble-shadow-sm);
+      transition: background var(--transition), transform var(--transition);
+    }
+    #themeToggle:hover {
+      background: var(--surface-hover);
+      transform: translateY(-1px);
+    }
+    #themeToggle:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+
+    /* --- Budget Bubbles (Stat Cards) --- */
+    .budget-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .budget-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: var(--bubble-shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .budget-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--bubble-shadow-md);
+    }
+    .budget-card .label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .budget-card .amount {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      margin: 8px 0 2px;
+      letter-spacing: -0.3px;
+    }
+    .budget-card .count {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .budget-card.purchased .amount { color: var(--mint); }
+    .budget-card.remaining .amount { color: var(--accent-coral); }
+    
+    .progress-bar-wrap {
+      width: 100%;
+      height: 6px;
+      background: var(--surface-subtle);
+      border-radius: var(--radius-full);
+      margin-top: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--mint);
+      border-radius: var(--radius-full);
+      transition: width 350ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* --- Main Action Bar / Toolbar --- */
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      margin-bottom: 14px;
+      align-items: center;
+    }
+    .search-wrap {
+      position: relative;
+      width: 100%;
+    }
+    .search-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      width: 18px;
+      height: 18px;
+    }
+    #searchInput {
+      width: 100%;
+      min-height: var(--touch-min);
+      padding: 10px 14px 10px 42px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-family: var(--font);
+      font-weight: 500;
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: var(--bubble-shadow-sm);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    #searchInput:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(58, 111, 248, 0.15);
+    }
+    #searchInput::placeholder { color: var(--text-muted); }
+    
+    #sortSelect {
+      min-height: var(--touch-min);
+      padding: 10px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-family: var(--font);
+      font-weight: 700;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: var(--bubble-shadow-sm);
+    }
+    #sortSelect:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+    
+    #addBtn {
+      min-height: var(--touch-min);
+      padding: 10px 20px;
+      background: var(--primary);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-family: var(--font);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 18px rgba(58, 111, 248, 0.35);
+      transition: background var(--transition), transform var(--transition);
+      white-space: nowrap;
+    }
+    #addBtn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+    #addBtn:active { transform: translateY(1px); }
+    #addBtn:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+
+    /* --- Category Tabs (Bubble Pills) --- */
+    .categories {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px 2px 10px;
+      margin-bottom: 10px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+    .categories::-webkit-scrollbar {
+      height: 4px;
+    }
+    .categories::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: var(--radius-full);
+    }
+    .cat-tab {
+      min-height: 38px;
+      padding: 6px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-family: var(--font);
+      font-weight: 700;
+      background: var(--surface);
+      color: var(--text-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--bubble-shadow-sm);
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+    .cat-tab:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+    .cat-tab:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+    .cat-tab.active {
+      background: var(--primary);
+      color: #FFFFFF;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(58, 111, 248, 0.3);
+    }
+    .cat-count {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: var(--radius-full);
+      background: var(--surface-subtle);
+      color: var(--text);
+    }
+    .cat-tab.active .cat-count {
+      background: rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+    }
+
+    /* --- Status Tabs --- */
+    .status-filter {
+      display: inline-flex;
+      background: var(--surface-subtle);
+      padding: 4px;
+      border-radius: var(--radius-full);
+      gap: 2px;
+      margin-bottom: 18px;
+    }
+    .status-btn {
+      min-height: 34px;
+      padding: 6px 16px;
+      border: none;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-family: var(--font);
+      font-weight: 700;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .status-btn:hover { color: var(--text); }
+    .status-btn:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+    .status-btn.active {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: var(--bubble-shadow-sm);
+    }
+
+    /* --- Item Cards --- */
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .item-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      box-shadow: var(--bubble-shadow-sm);
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .item-card:hover {
+      border-color: var(--border-focus);
+      box-shadow: var(--bubble-shadow-md);
+      transform: translateY(-1px);
+    }
+    .item-card.purchased {
+      background: var(--surface-subtle);
+      border-color: var(--border);
+      opacity: 0.85;
+    }
+    .item-card.purchased .item-title {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    /* Check Bubble */
+    .item-check-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: transparent;
+      transition: all var(--transition);
+      padding: 0;
+    }
+    .item-check-btn:hover {
+      border-color: var(--mint);
+      background: var(--mint-light);
+    }
+    .item-check-btn:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+    .item-check-btn.checked {
+      background: var(--mint);
+      border-color: var(--mint);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+    }
+    .item-check-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .item-content {
+      min-width: 0;
+    }
+    .item-header-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+    .item-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .item-link-pill {
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background var(--transition);
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .item-link-pill:hover {
+      text-decoration: underline;
+    }
+    .item-link-pill:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 1px;
+    }
+
+    .item-meta-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+    .item-category-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      background: var(--surface-subtle);
+      color: var(--text-secondary);
+    }
+    .item-price-tag {
+      font-weight: 800;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .priority-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+    }
+    .priority-badge.tinggi {
+      background: var(--accent-coral-light);
+      color: var(--accent-coral);
+    }
+    .priority-badge.sedang {
+      background: var(--amber-light);
+      color: var(--amber);
+    }
+    .priority-badge.rendah {
+      background: var(--surface-subtle);
+      color: var(--text-muted);
+    }
+    .priority-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .item-note-text {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      background: var(--surface-subtle);
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+    }
+
+    /* Action Buttons in Item */
+    .item-actions {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border: none;
+      border-radius: var(--radius-md);
+      background: var(--surface-subtle);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+    }
+    .icon-btn:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+    .icon-btn.delete-btn:hover {
+      background: var(--accent-coral-light);
+      color: var(--accent-coral);
+    }
+    .icon-btn:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+    .icon-btn svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* --- Empty State --- */
+    .empty-state {
+      background: var(--surface);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+    .empty-bubble-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      border-radius: var(--radius-lg);
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .empty-bubble-icon svg {
+      width: 32px;
+      height: 32px;
+    }
+    .empty-state p {
+      font-size: 14px;
+      font-weight: 500;
+      max-width: 320px;
+      margin: 0 auto 18px;
+      line-height: 1.5;
+    }
+    .empty-state button {
+      min-height: var(--touch-min);
+      padding: 10px 24px;
+      background: var(--primary);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-family: var(--font);
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(58, 111, 248, 0.3);
+      transition: background var(--transition);
+    }
+    .empty-state button:hover {
+      background: var(--primary-hover);
+    }
+
+    /* --- Bottom Bar / Footer --- */
+    .footer-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-top: 1.5px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-left {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .footer-btn {
+      min-height: var(--touch-min);
+      padding: 8px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-family: var(--font);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--bubble-shadow-sm);
+      transition: all var(--transition);
+    }
+    .footer-btn:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+    .footer-btn.danger-footer-btn:hover {
+      background: var(--accent-coral-light);
+      color: var(--accent-coral);
+      border-color: var(--accent-coral);
+    }
+    .footer-btn:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+    .item-counter-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    /* --- Modals (Bubble Dialogs) --- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 20, 36, 0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 16px;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-bubble {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--bubble-shadow-modal);
+      width: 100%;
+      max-width: 520px;
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+      padding: 24px;
+      border: 1.5px solid var(--border);
+      animation: modalPop 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      0% { opacity: 0; transform: scale(0.95) translateY(8px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-bubble h2 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      min-height: var(--touch-min);
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-family: var(--font);
+      font-weight: 500;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color var(--transition);
+    }
+    .form-group textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(58, 111, 248, 0.15);
+    }
+    .form-group .hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 22px;
+    }
+    .btn-modal-cancel {
+      min-height: var(--touch-min);
+      padding: 10px 20px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 14px;
+      font-family: var(--font);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-modal-cancel:hover {
+      background: var(--surface-hover);
+    }
+    .btn-modal-submit {
+      min-height: var(--touch-min);
+      padding: 10px 24px;
+      background: var(--primary);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-family: var(--font);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(58, 111, 248, 0.3);
+    }
+    .btn-modal-submit:hover {
+      background: var(--primary-hover);
+    }
+    .btn-modal-delete {
+      min-height: var(--touch-min);
+      padding: 10px 24px;
+      background: var(--accent-coral);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-family: var(--font);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(255, 90, 121, 0.35);
+    }
+    .btn-modal-delete:hover {
+      background: #E84564;
+    }
+
+    /* Small Modal */
+    .modal-bubble.modal-sm {
+      max-width: 400px;
+    }
+    .modal-sm p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    /* --- Toast Notification --- */
+    .toast-bubble {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--text);
+      color: var(--bg);
+      padding: 12px 22px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 700;
+      z-index: 1000;
+      opacity: 0;
+      box-shadow: var(--bubble-shadow-modal);
+      transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 300ms ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .toast-bubble.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ============================================================
+       RESPONSIVE BREAKPOINTS (Mobile, Tablet, Desktop)
+       ============================================================ */
+    @media (max-width: 768px) {
+      .toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+      .search-wrap {
+        grid-column: 1 / -1;
+      }
+      #addBtn {
+        width: 100%;
+      }
+      #sortSelect {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 580px) {
+      header {
+        padding: 18px 0 14px;
+      }
+      header h1 {
+        font-size: 18px;
+      }
+      .bubble-badge {
+        width: 38px;
+        height: 38px;
+      }
+      .bubble-badge svg {
+        width: 18px;
+        height: 18px;
+      }
+      .budget-section {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .budget-card {
+        padding: 12px 14px;
+      }
+      .budget-card .amount {
+        font-size: 16px;
+        margin: 4px 0 2px;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .item-card {
+        grid-template-columns: 40px 1fr;
+        gap: 10px;
+        padding: 12px;
+      }
+      .item-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        padding-top: 8px;
+        border-top: 1px dashed var(--border);
+      }
+      .modal-bubble {
+        padding: 18px;
+        border-radius: var(--radius-md);
+      }
+      .footer-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .footer-left {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .footer-btn {
+        justify-content: center;
+      }
+      .item-counter-label {
+        text-align: center;
+      }
+    }
+  </style>
+  <meta name="theme-color" content="#3A6FF8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Belanjaan">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-top">
+        <div class="brand-group">
+          <div class="bubble-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div>
+            <h1>Belanjaan Rumah Kita</h1>
+            <p class="subtitle">Daftar belanja & anggaran perabot setelah menikah.</p>
+          </div>
+        </div>
+        <button id="themeToggle" type="button" aria-label="Ganti tema warna">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <span id="themeToggleText">Mode Gelap</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Budget Highlights -->
+    <section class="budget-section" id="budgetSection" aria-label="Ringkasan anggaran belanja"></section>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input type="search" id="searchInput" placeholder="Cari barang, kategori, catatan..." aria-label="Cari barang">
+      </div>
+      <select id="sortSelect" aria-label="Urutkan daftar barang">
+        <option value="terbaru">Terbaru Ditambah</option>
+        <option value="nama-asc">Nama (A-Z)</option>
+        <option value="nama-desc">Nama (Z-A)</option>
+        <option value="harga-asc">Harga Termurah</option>
+        <option value="harga-desc">Harga Termahal</option>
+        <option value="prioritas">Prioritas Tertinggi</option>
+      </select>
+      <button id="addBtn" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Tambah Barang
+      </button>
+    </div>
+
+    <!-- Category Pills -->
+    <div class="categories" id="categoryTabs" role="tablist" aria-label="Filter kategori ruangan"></div>
+
+    <!-- Status Filter -->
+    <div class="status-filter" id="statusFilter" role="group" aria-label="Filter status pembelian"></div>
+
+    <!-- Item Cards List -->
+    <div class="item-list" id="itemList" role="list" aria-label="Daftar keperluan belanja"></div>
+
+    <!-- Footer Actions -->
+    <div class="footer-bar" id="footerBar">
+      <div class="footer-left">
+        <button class="footer-btn" id="exportBtn" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+          </svg>
+          Salin ke WhatsApp
+        </button>
+        <button class="footer-btn danger-footer-btn" id="clearPurchasedBtn" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+          </svg>
+          Hapus Sudah Dibeli
+        </button>
+      </div>
+      <span class="item-counter-label" id="itemCount"></span>
+    </div>
+  </div>
+
+  <!-- Add / Edit Modal -->
+  <div class="modal-overlay" id="itemModal" aria-hidden="true">
+    <div class="modal-bubble" role="dialog" aria-labelledby="modalTitle">
+      <h2 id="modalTitle">Tambah Barang Baru</h2>
+      <form id="itemForm" novalidate>
+        <div class="form-group">
+          <label for="inputNama">Nama Barang</label>
+          <input type="text" id="inputNama" required placeholder="Contoh: Blender Serbaguna, Wajan Granit">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inputKategori">Kategori Ruangan</label>
+            <select id="inputKategori" required></select>
+          </div>
+          <div class="form-group">
+            <label for="inputPrioritas">Prioritas Kebutuhan</label>
+            <select id="inputPrioritas" required>
+              <option value="tinggi">Tinggi (Wajib Ada)</option>
+              <option value="sedang" selected>Sedang (Bisa Menyusul)</option>
+              <option value="rendah">Rendah (Wishlist)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inputHarga">Harga Satuan (Rp)</label>
+            <input type="number" id="inputHarga" required min="0" step="1000" placeholder="150000">
+          </div>
+          <div class="form-group">
+            <label for="inputJumlah">Jumlah (Qty)</label>
+            <input type="number" id="inputJumlah" required min="1" value="1">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputLink">Link Pembelian Toko Online (Opsional)</label>
+          <input type="url" id="inputLink" placeholder="https://tokopedia.com/... atau https://shopee.co.id/...">
+          <span class="hint">Tempel link produk dari Tokopedia, Shopee, TikTok Shop, atau website lainnya.</span>
+        </div>
+        <div class="form-group">
+          <label for="inputCatatan">Catatan Tambahan (Opsional)</label>
+          <textarea id="inputCatatan" rows="2" placeholder="Warna, dimensi, garansi, atau merek incaran..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-modal-cancel" id="cancelBtn">Batal</button>
+          <button type="submit" class="btn-modal-submit" id="submitBtn">Simpan Barang</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Single Delete Modal -->
+  <div class="modal-overlay" id="deleteModal" aria-hidden="true">
+    <div class="modal-bubble modal-sm" role="alertdialog" aria-labelledby="deleteTitle" aria-describedby="deleteDesc">
+      <h2 id="deleteTitle">Hapus Barang</h2>
+      <p id="deleteDesc"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn-modal-cancel" id="deleteCancelBtn">Batal</button>
+        <button type="button" class="btn-modal-delete" id="deleteConfirmBtn">Ya, Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bulk Delete Modal -->
+  <div class="modal-overlay" id="bulkDeleteModal" aria-hidden="true">
+    <div class="modal-bubble modal-sm" role="alertdialog" aria-labelledby="bulkDeleteTitle" aria-describedby="bulkDeleteDesc">
+      <h2 id="bulkDeleteTitle">Bersihkan yang Sudah Dibeli</h2>
+      <p id="bulkDeleteDesc"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn-modal-cancel" id="bulkDeleteCancelBtn">Batal</button>
+        <button type="button" class="btn-modal-delete" id="bulkDeleteConfirmBtn">Hapus Semua</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-bubble" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const CATEGORIES = [
+      { id: 'dapur', label: 'Dapur' },
+      { id: 'kamar-tidur', label: 'Kamar Tidur' },
+      { id: 'kamar-mandi', label: 'Kamar Mandi' },
+      { id: 'ruang-tamu', label: 'Ruang Tamu' },
+      { id: 'ruang-makan', label: 'Ruang Makan' },
+      { id: 'laundry', label: 'Laundry' },
+      { id: 'elektronik', label: 'Elektronik' },
+      { id: 'kebersihan', label: 'Kebersihan' },
+      { id: 'lainnya', label: 'Lainnya' }
+    ];
+
+    const PRIORITY_ORDER = { tinggi: 0, sedang: 1, rendah: 2 };
+    const STORAGE_KEY = 'belanjaan_rumah_items_v2';
+    const THEME_KEY = 'belanjaan_rumah_theme_v2';
+
+    let state = {
+      items: [],
+      filter: { kategori: 'semua', status: 'semua', search: '' },
+      sort: 'terbaru',
+      editingId: null,
+      deletingId: null
+    };
+
+    function loadItems() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('belanjaan_rumah_items');
+        state.items = raw ? JSON.parse(raw) : [];
+      } catch {
+        state.items = [];
+      }
+    }
+
+    function saveItems() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items));
+    }
+
+    function loadTheme() {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('themeToggleText').textContent = 'Mode Terang';
+      }
+    }
+
+    function formatRupiah(n) {
+      return 'Rp ' + Number(n).toLocaleString('id-ID');
+    }
+
+    function getHostname(url) {
+      try {
+        const host = new URL(url).hostname.replace(/^www\./, '');
+        return host;
+      } catch {
+        return null;
+      }
+    }
+
+    function getCategoryLabel(id) {
+      const cat = CATEGORIES.find(c => c.id === id);
+      return cat ? cat.label : id;
+    }
+
+    function getFilteredItems() {
+      let items = [...state.items];
+      const { kategori, status, search } = state.filter;
+
+      if (kategori !== 'semua') {
+        items = items.filter(i => i.kategori === kategori);
+      }
+      if (status === 'belum') items = items.filter(i => !i.dibeli);
+      if (status === 'sudah') items = items.filter(i => i.dibeli);
+      
+      if (search.trim()) {
+        const q = search.toLowerCase().trim();
+        items = items.filter(i =>
+          i.nama.toLowerCase().includes(q) ||
+          getCategoryLabel(i.kategori).toLowerCase().includes(q) ||
+          (i.catatan && i.catatan.toLowerCase().includes(q))
+        );
+      }
+
+      const sortFn = {
+        'terbaru': (a, b) => b.createdAt - a.createdAt,
+        'nama-asc': (a, b) => a.nama.localeCompare(b.nama, 'id'),
+        'nama-desc': (a, b) => b.nama.localeCompare(a.nama, 'id'),
+        'harga-asc': (a, b) => (a.harga * a.jumlah) - (b.harga * b.jumlah),
+        'harga-desc': (a, b) => (b.harga * b.jumlah) - (a.harga * a.jumlah),
+        'prioritas': (a, b) => PRIORITY_ORDER[a.prioritas] - PRIORITY_ORDER[b.prioritas]
+      };
+      items.sort(sortFn[state.sort] || sortFn.terbaru);
+
+      // Taruh yang belum dibeli di atas
+      items.sort((a, b) => (a.dibeli ? 1 : 0) - (b.dibeli ? 1 : 0));
+
+      return items;
+    }
+
+    function renderBudget() {
+      const total = state.items.reduce((s, i) => s + (i.harga * i.jumlah), 0);
+      const purchased = state.items.filter(i => i.dibeli).reduce((s, i) => s + (i.harga * i.jumlah), 0);
+      const remaining = total - purchased;
+      const totalCount = state.items.length;
+      const purchasedCount = state.items.filter(i => i.dibeli).length;
+      const pct = totalCount > 0 ? Math.round((purchasedCount / totalCount) * 100) : 0;
+
+      document.getElementById('budgetSection').innerHTML = `
+        <div class="budget-card">
+          <div>
+            <div class="label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              Total Anggaran
+            </div>
+            <div class="amount">${formatRupiah(total)}</div>
+          </div>
+          <div>
+            <div class="count">${totalCount} barang direncanakan</div>
+            <div class="progress-bar-wrap" title="${pct}% terbeli">
+              <div class="progress-fill" style="width: ${pct}%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="budget-card purchased">
+          <div>
+            <div class="label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg>
+              Sudah Dibeli
+            </div>
+            <div class="amount">${formatRupiah(purchased)}</div>
+          </div>
+          <div class="count">${purchasedCount} dari ${totalCount} barang (${pct}%)</div>
+        </div>
+        <div class="budget-card remaining">
+          <div>
+            <div class="label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+              Sisa Kebutuhan
+            </div>
+            <div class="amount">${formatRupiah(remaining)}</div>
+          </div>
+          <div class="count">${totalCount - purchasedCount} barang belum dibeli</div>
+        </div>
+      `;
+    }
+
+    function renderCategories() {
+      const counts = { semua: state.items.length };
+      CATEGORIES.forEach(c => {
+        counts[c.id] = state.items.filter(i => i.kategori === c.id).length;
+      });
+
+      const tabs = [{ id: 'semua', label: 'Semua Ruangan' }, ...CATEGORIES];
+      document.getElementById('categoryTabs').innerHTML = tabs.map(t => `
+        <button class="cat-tab${state.filter.kategori === t.id ? ' active' : ''}"
+                data-cat="${t.id}" role="tab"
+                aria-selected="${state.filter.kategori === t.id}">
+          ${t.label}
+          <span class="cat-count">${counts[t.id] || 0}</span>
+        </button>
+      `).join('');
+    }
+
+    function renderStatusFilter() {
+      const statuses = [
+        { id: 'semua', label: 'Semua' },
+        { id: 'belum', label: 'Perlu Dibeli' },
+        { id: 'sudah', label: 'Sudah Dibeli' }
+      ];
+      document.getElementById('statusFilter').innerHTML = statuses.map(s => `
+        <button class="status-btn${state.filter.status === s.id ? ' active' : ''}"
+                data-status="${s.id}">${s.label}</button>
+      `).join('');
+    }
+
+    function renderItems() {
+      const items = getFilteredItems();
+      const list = document.getElementById('itemList');
+
+      if (state.items.length === 0) {
+        list.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-bubble-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                <line x1="3" x2="21" y1="6" y2="6"/>
+                <path d="M16 10a4 4 0 0 1-8 0"/>
+              </svg>
+            </div>
+            <p>Daftar belanja masih kosong. Mulai tambahkan perabot dan keperluan rumah impian kalian!</p>
+            <button type="button" onclick="openModal()">Tambah Barang Pertama</button>
+          </div>
+        `;
+        document.getElementById('footerBar').style.display = 'none';
+        return;
+      }
+
+      document.getElementById('footerBar').style.display = 'flex';
+
+      if (items.length === 0) {
+        let msg = 'Tidak ada barang yang cocok dengan filter atau pencarian.';
+        if (!state.filter.search && state.filter.status === 'belum') {
+          msg = 'Semua keperluan di kategori ini sudah beres dibeli!';
+        } else if (!state.filter.search && state.filter.status === 'sudah') {
+          msg = 'Belum ada barang yang sudah dibeli di kategori ini.';
+        }
+        list.innerHTML = `<div class="empty-state"><p>${msg}</p></div>`;
+        return;
+      }
+
+      list.innerHTML = items.map(item => {
+        const subtotal = item.harga * item.jumlah;
+        const hostname = item.link ? getHostname(item.link) : null;
+        const prioritasText = item.prioritas === 'tinggi' ? 'Penting' : item.prioritas === 'sedang' ? 'Sedang' : 'Opsional';
+
+        return `
+          <div class="item-card${item.dibeli ? ' purchased' : ''}" role="listitem" data-id="${item.id}">
+            <button class="item-check-btn${item.dibeli ? ' checked' : ''}"
+                    data-action="toggle" data-id="${item.id}"
+                    aria-label="${item.dibeli ? 'Tandai belum dibeli' : 'Tandai sudah dibeli'}: ${item.nama}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+            <div class="item-content">
+              <div class="item-header-line">
+                <span class="item-title">${escapeHtml(item.nama)}</span>
+                ${hostname ? `
+                  <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="item-link-pill" title="${item.link}">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    ${hostname}
+                  </a>
+                ` : ''}
+              </div>
+              <div class="item-meta-line">
+                <span class="item-category-tag">${getCategoryLabel(item.kategori)}</span>
+                <span class="item-price-tag">${formatRupiah(subtotal)}${item.jumlah > 1 ? ` (${item.jumlah}x @${formatRupiah(item.harga)})` : ''}</span>
+                <span class="priority-badge ${item.prioritas}">
+                  <span class="priority-badge-dot"></span>
+                  ${prioritasText}
+                </span>
+              </div>
+              ${item.catatan ? `<div class="item-note-text">${escapeHtml(item.catatan)}</div>` : ''}
+            </div>
+            <div class="item-actions">
+              <button class="icon-btn" data-action="edit" data-id="${item.id}" aria-label="Edit ${item.nama}" title="Edit">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                </svg>
+              </button>
+              <button class="icon-btn delete-btn" data-action="delete" data-id="${item.id}" aria-label="Hapus ${item.nama}" title="Hapus">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('itemCount').textContent = `${items.length} barang ditampilkan`;
+    }
+
+    function escapeHtml(str) {
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+
+    function render() {
+      renderBudget();
+      renderCategories();
+      renderStatusFilter();
+      renderItems();
+    }
+
+    // Modal Control
+    function openModal(editId) {
+      const modal = document.getElementById('itemModal');
+      const form = document.getElementById('itemForm');
+      const title = document.getElementById('modalTitle');
+
+      form.reset();
+      document.getElementById('inputJumlah').value = '1';
+
+      if (editId) {
+        const item = state.items.find(i => i.id === editId);
+        if (!item) return;
+        state.editingId = editId;
+        title.textContent = 'Edit Keperluan';
+        document.getElementById('submitBtn').textContent = 'Perbarui Barang';
+        document.getElementById('inputNama').value = item.nama;
+        document.getElementById('inputKategori').value = item.kategori;
+        document.getElementById('inputPrioritas').value = item.prioritas;
+        document.getElementById('inputHarga').value = item.harga;
+        document.getElementById('inputJumlah').value = item.jumlah;
+        document.getElementById('inputLink').value = item.link || '';
+        document.getElementById('inputCatatan').value = item.catatan || '';
+      } else {
+        state.editingId = null;
+        title.textContent = 'Tambah Barang Baru';
+        document.getElementById('submitBtn').textContent = 'Simpan Barang';
+      }
+
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.getElementById('inputNama').focus();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('itemModal');
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      state.editingId = null;
+      document.body.style.overflow = '';
+    }
+
+    function openDeleteModal(id) {
+      const item = state.items.find(i => i.id === id);
+      if (!item) return;
+      state.deletingId = id;
+      document.getElementById('deleteDesc').textContent =
+        `Yakin ingin menghapus "${item.nama}" dari daftar belanja?`;
+      const modal = document.getElementById('deleteModal');
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.getElementById('deleteCancelBtn').focus();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.remove('open');
+      document.getElementById('deleteModal').setAttribute('aria-hidden', 'true');
+      state.deletingId = null;
+      document.body.style.overflow = '';
+    }
+
+    function openBulkDeleteModal() {
+      const count = state.items.filter(i => i.dibeli).length;
+      if (count === 0) {
+        showToast('Belum ada barang yang ditandai sudah dibeli.');
+        return;
+      }
+      document.getElementById('bulkDeleteDesc').textContent =
+        `${count} barang yang sudah selesai dibeli akan dihapus sekaligus dari daftar.`;
+      const modal = document.getElementById('bulkDeleteModal');
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.getElementById('bulkDeleteCancelBtn').focus();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeBulkDeleteModal() {
+      document.getElementById('bulkDeleteModal').classList.remove('open');
+      document.getElementById('bulkDeleteModal').setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    // CRUD
+    function addOrUpdateItem(data) {
+      if (state.editingId) {
+        const idx = state.items.findIndex(i => i.id === state.editingId);
+        if (idx !== -1) {
+          state.items[idx] = { ...state.items[idx], ...data };
+          showToast('Data barang berhasil diperbarui!');
+        }
+      } else {
+        state.items.push({
+          id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+          ...data,
+          dibeli: false,
+          createdAt: Date.now()
+        });
+        showToast('Barang baru berhasil ditambahkan!');
+      }
+      saveItems();
+      render();
+      closeModal();
+    }
+
+    function deleteItem(id) {
+      state.items = state.items.filter(i => i.id !== id);
+      saveItems();
+      render();
+      closeDeleteModal();
+      showToast('Barang berhasil dihapus.');
+    }
+
+    function togglePurchased(id) {
+      const item = state.items.find(i => i.id === id);
+      if (item) {
+        item.dibeli = !item.dibeli;
+        saveItems();
+        render();
+        showToast(item.dibeli ? 'Telah ditandai sudah dibeli!' : 'Dipindahkan ke perlu dibeli.');
+      }
+    }
+
+    function clearPurchased() {
+      state.items = state.items.filter(i => !i.dibeli);
+      saveItems();
+      render();
+      closeBulkDeleteModal();
+      showToast('Daftar yang sudah dibeli telah dibersihkan.');
+    }
+
+    // WhatsApp Export
+    function exportList() {
+      if (state.items.length === 0) {
+        showToast('Daftar belanja masih kosong.');
+        return;
+      }
+
+      const grouped = {};
+      CATEGORIES.forEach(c => {
+        const items = state.items.filter(i => i.kategori === c.id);
+        if (items.length > 0) grouped[c.label] = items;
+      });
+
+      let text = '*Daftar Belanjaan Rumah Tangga*\n';
+      text += '------------------------------------\n\n';
+
+      for (const [cat, items] of Object.entries(grouped)) {
+        text += `*${cat.toUpperCase()}*\n`;
+        items.forEach(item => {
+          const mark = item.dibeli ? '[V]' : '[ ]';
+          const sub = item.harga * item.jumlah;
+          text += `${mark} ${item.nama}`;
+          if (item.jumlah > 1) text += ` (${item.jumlah}x)`;
+          text += ` - ${formatRupiah(sub)}`;
+          if (item.prioritas === 'tinggi') text += ' *(Penting)*';
+          text += '\n';
+          if (item.link) text += `   Link: ${item.link}\n`;
+          if (item.catatan) text += `   Note: ${item.catatan}\n`;
+        });
+        text += '\n';
+      }
+
+      const total = state.items.reduce((s, i) => s + (i.harga * i.jumlah), 0);
+      const purchased = state.items.filter(i => i.dibeli).reduce((s, i) => s + (i.harga * i.jumlah), 0);
+      text += `Total Anggaran: ${formatRupiah(total)}\n`;
+      text += `Sudah Dibeli: ${formatRupiah(purchased)}\n`;
+      text += `Sisa Kebutuhan: ${formatRupiah(total - purchased)}\n`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Daftar disalin! Siap dipaste ke chat WhatsApp.');
+      }).catch(() => {
+        showToast('Gagal menyalin, periksa izin clipboard browser.');
+      });
+    }
+
+    let toastTimer;
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+    }
+
+    function normalizeUrl(url) {
+      if (!url) return '';
+      url = url.trim();
+      if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
+      try { new URL(url); return url; }
+      catch { return ''; }
+    }
+
+    function getFormData() {
+      const nama = document.getElementById('inputNama').value.trim();
+      const kategori = document.getElementById('inputKategori').value;
+      const prioritas = document.getElementById('inputPrioritas').value;
+      const harga = parseInt(document.getElementById('inputHarga').value, 10);
+      const jumlah = parseInt(document.getElementById('inputJumlah').value, 10);
+      const link = normalizeUrl(document.getElementById('inputLink').value);
+      const catatan = document.getElementById('inputCatatan').value.trim();
+
+      if (!nama) { document.getElementById('inputNama').focus(); return null; }
+      if (isNaN(harga) || harga < 0) { document.getElementById('inputHarga').focus(); return null; }
+      if (isNaN(jumlah) || jumlah < 1) { document.getElementById('inputJumlah').focus(); return null; }
+
+      return { nama, kategori, prioritas, harga, jumlah, link, catatan };
+    }
+
+    function populateCategorySelect() {
+      const sel = document.getElementById('inputKategori');
+      sel.innerHTML = CATEGORIES.map(c =>
+        `<option value="${c.id}">${c.label}</option>`
+      ).join('');
+    }
+
+    function bindEvents() {
+      document.getElementById('addBtn').addEventListener('click', () => openModal());
+
+      document.getElementById('itemForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const data = getFormData();
+        if (data) addOrUpdateItem(data);
+      });
+
+      document.getElementById('cancelBtn').addEventListener('click', closeModal);
+
+      document.getElementById('itemModal').addEventListener('click', e => {
+        if (e.target === e.currentTarget) closeModal();
+      });
+
+      document.getElementById('deleteConfirmBtn').addEventListener('click', () => {
+        if (state.deletingId) deleteItem(state.deletingId);
+      });
+      document.getElementById('deleteCancelBtn').addEventListener('click', closeDeleteModal);
+      document.getElementById('deleteModal').addEventListener('click', e => {
+        if (e.target === e.currentTarget) closeDeleteModal();
+      });
+
+      document.getElementById('bulkDeleteConfirmBtn').addEventListener('click', clearPurchased);
+      document.getElementById('bulkDeleteCancelBtn').addEventListener('click', closeBulkDeleteModal);
+      document.getElementById('bulkDeleteModal').addEventListener('click', e => {
+        if (e.target === e.currentTarget) closeBulkDeleteModal();
+      });
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+          if (document.getElementById('deleteModal').classList.contains('open')) closeDeleteModal();
+          else if (document.getElementById('bulkDeleteModal').classList.contains('open')) closeBulkDeleteModal();
+          else if (document.getElementById('itemModal').classList.contains('open')) closeModal();
+        }
+      });
+
+      // Item actions delegation
+      document.getElementById('itemList').addEventListener('click', e => {
+        const btn = e.target.closest('[data-action]');
+        if (!btn) return;
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+        if (action === 'toggle') togglePurchased(id);
+        else if (action === 'edit') openModal(id);
+        else if (action === 'delete') openDeleteModal(id);
+      });
+
+      // Category filter delegation
+      document.getElementById('categoryTabs').addEventListener('click', e => {
+        const tab = e.target.closest('[data-cat]');
+        if (!tab) return;
+        state.filter.kategori = tab.dataset.cat;
+        render();
+      });
+
+      // Status filter delegation
+      document.getElementById('statusFilter').addEventListener('click', e => {
+        const btn = e.target.closest('[data-status]');
+        if (!btn) return;
+        state.filter.status = btn.dataset.status;
+        render();
+      });
+
+      document.getElementById('searchInput').addEventListener('input', e => {
+        state.filter.search = e.target.value;
+        renderItems();
+      });
+
+      document.getElementById('sortSelect').addEventListener('change', e => {
+        state.sort = e.target.value;
+        renderItems();
+      });
+
+      document.getElementById('exportBtn').addEventListener('click', exportList);
+      document.getElementById('clearPurchasedBtn').addEventListener('click', openBulkDeleteModal);
+
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          document.documentElement.removeAttribute('data-theme');
+          document.getElementById('themeToggleText').textContent = 'Mode Gelap';
+          localStorage.setItem(THEME_KEY, 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.getElementById('themeToggleText').textContent = 'Mode Terang';
+          localStorage.setItem(THEME_KEY, 'dark');
+        }
+      });
+    }
+
+    // Init
+    loadTheme();
+    loadItems();
+    populateCategorySelect();
+    bindEvents();
+    render();
+  </script>
+<script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW gagal:', err));
+      });
+    }
+  </script>
+</body>
+</html>

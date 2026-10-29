@@ -1,6 +1,7 @@
-const CACHE = 'belanjaan-v1';
+const CACHE = 'belanjaan-v2';
 const CORE = ['./', './index.html', './manifest.webmanifest',
-  './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png'];
+  './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png',
+  './contoh-belanjaan-pengantin-baru.json'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
